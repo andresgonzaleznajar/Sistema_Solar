@@ -3,6 +3,7 @@ package mygame;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -23,6 +24,8 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        
+        
         /**
          * Los objetos Node podrías imaginarlos como cajas que contendrán otras cajas o modelos (esferas, 
          * personaje, etc.). Al igual que si mueves una caja, se mueve todo lo de su interior, si rotas 
@@ -46,7 +49,7 @@ public class Main extends SimpleApplication {
          * el cual requiere los vértices y aristas del objeto tridimensional, así como el 
          * material de este.
          */
-        Sphere sol = new Sphere(30, 30, 2f);
+        Sphere sol = new Sphere(30, 30, 1.5f);
         Geometry geomSol = new Geometry("Sol", sol);
         /**
          * Ya que utilizaremos una figura geométrica básica, la “esfera”, el motor proporción 
@@ -56,7 +59,7 @@ public class Main extends SimpleApplication {
          * radialSample -  El número de muestras a lo largo del radial, radius – El radio de la esfera.
          * 
          **/
-        Sphere tierra = new Sphere(30, 30, 1f);
+        Sphere tierra = new Sphere(30, 30, 0.7f);
         Geometry geomTierra = new Geometry("Tierra", tierra);
         Sphere luna = new Sphere(30, 30, 0.3f);
         Geometry geomLuna = new Geometry("Luna", luna);
@@ -82,6 +85,8 @@ public class Main extends SimpleApplication {
         matB.setColor("Color", ColorRGBA.Blue);        
         geomTierra.setMaterial(matB);
         
+        
+        
         Material matW = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         matW.setColor("Color", ColorRGBA.White);
         geomLuna.setMaterial(matW);
@@ -98,6 +103,8 @@ public class Main extends SimpleApplication {
         Material matG = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         matG.setColor("Color", ColorRGBA.Gray);        
         geomUrano.setMaterial(matG);
+ 
+           
         
         /**
          * Los Nodes son un medio para agrupar otros nodos y/o objetos del tipo Geometry. Además, 
@@ -117,18 +124,27 @@ public class Main extends SimpleApplication {
         
         nodeSol.attachChild(geomSol);
         
+        //la luna gira al rededor de su pivote la tierra sobre el eje Z
+        nodeTierra.rotate(0, 0, 30 * FastMath.DEG_TO_RAD);
+        
+        
         //se define la distancia en la que realizara la translacion con respecto 
         //nodo de pivote de cada objeto o planeta
-        nodeTierra.setLocalTranslation(5f, 0, 0f);
-        nodeJupiter.setLocalTranslation(8f, 0, 0f);
-        nodeUrano.setLocalTranslation(13f, 0, 0f);
+        nodeTierra.setLocalTranslation(4f, 0, 0f);
+        nodeJupiter.setLocalTranslation(7f, 0, 0f);
+        nodeUrano.setLocalTranslation(12f, 0, 0f);
         
-       
+        
         pivottierra.attachChild(nodeSol);
         pivottierra.attachChild(nodeTierra);
         pivotjupiter.attachChild(nodeJupiter);
         pivoturano.attachChild(nodeUrano);
        
+        //el planeta tierra gira sobre el eje de las X 
+        pivottierra.rotate(30 * FastMath.DEG_TO_RAD,0,0);
+        
+        //el planeta jupiter gira sobre el eje de la Z 
+        pivotjupiter.rotate(0,0,30 * FastMath.DEG_TO_RAD);
         
         /**
          * Recuerda, para que se pueda visualizar algún Spatial(Node o Geometry) en el escenario, 
@@ -154,14 +170,20 @@ public class Main extends SimpleApplication {
          * en cada ciclo de la función simpleUpdate
         **/
         
+        
         rootNode.getChild("nodo_tierra").rotate(0,tpf, 0);
         
         
-        // tpf/3 indica que se movera un tercion de la velocidad que lo haga el nodo tierra
+        // tpf/3 indica que rotara 1/3 de la velocidad de la variable tpf
+        //sobre el eje Y
         rootNode.getChild("nodo_pivotetierra").rotate(0,tpf/3, 0);
         
-        //velocidad con la que rotara cada objeto respecto a su nodo
-        rootNode.getChild("nodo_pivotejupiter").rotate(0,tpf/4, 0);  
+        // tpf/4 indica que rotara 1/3 de la velocidad de la variable tpf
+        //sobre el eje Y
+        rootNode.getChild("nodo_pivotejupiter").rotate(0,tpf/4, 0);    
+        
+        // tpf/5 indica que rotara 1/3 de la velocidad de la variable tpf
+        //sobre el eje Y
         rootNode.getChild("nodo_pivoteurano").rotate(0,tpf/5, 0);  
     }
 
