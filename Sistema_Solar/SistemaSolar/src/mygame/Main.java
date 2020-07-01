@@ -131,8 +131,8 @@ public class Main extends SimpleApplication {
         //se define la distancia en la que realizara la translacion con respecto 
         //nodo de pivote de cada objeto o planeta
         nodeTierra.setLocalTranslation(4f, 0, 0f);
-        nodeJupiter.setLocalTranslation(7f, 0, 0f);
-        nodeUrano.setLocalTranslation(12f, 0, 0f);
+        nodeJupiter.setLocalTranslation(6f, 0, 0f);
+        nodeUrano.setLocalTranslation(10f, 0, 0f);
         
         
         pivottierra.attachChild(nodeSol);
